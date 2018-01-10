@@ -23,9 +23,9 @@ app.get('/message', (req, res) => {
 // LET'S DO CRUD WITH MONGODB
 
 // Start server (replace link mlab, mongodb://<dbuser>:...)
-MongoClient.connect('YOUR-LINK', (err, db) => {
-    var database = db.db("CRUD");
-    if (err) return console.log(err);
+MongoClient.connect('mongodb://spam:spam@ds247327.mlab.com:47327/crudexpress', (err, db) => {
+    var database = db.db("crudexpress");
+    if (err) return console.log(err)
     app.listen(3000, () => {
         console.log('working on :3000')
     })
