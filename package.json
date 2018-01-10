@@ -1,0 +1,14 @@
+{
+  "name": "basicrouting",
+  "version": "1.0.0",
+  "description": "Trying out basic routing in Express.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "magdapoppins",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
