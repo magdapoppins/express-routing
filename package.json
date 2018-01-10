@@ -4,11 +4,14 @@
   "description": "Trying out basic routing in Express.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "dev": "nodemon index.js"
   },
   "author": "magdapoppins",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.10"
   }
 }
