@@ -1,7 +1,7 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const app = express();
 
 // For the app to receive POST requests, it needs a the body-parser-package
@@ -15,19 +15,21 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 // BASIC ROUTES
 
-// GET '/'
-app.get('/', (req, res) => {
-    res.send("Ta-da, I'm there!")
-});
+// // GET '/'
+// app.get('/', (req, res) => {
+//     res.send("Ta-da, I'm there!")
+// });
 
-// GET '/message'
-app.get('/message', (req, res) => {
-    res.send("Remember to make lunch for tomorrow!")
-});
+// // GET '/message'
+// app.get('/message', (req, res) => {
+//     res.send("Remember to make lunch for tomorrow!")
+// });
 
 // LET'S DO CRUD WITH MONGODB
 
 var http=require('http');
+
+// Getting EACCES-error? Test if the port is occupied by running this --> 
 
 // var server=http.createServer(function(req,res){
 //     res.end('test');
@@ -40,27 +42,20 @@ var http=require('http');
 // server.listen(3000);
 
 // Start server (replace link mlab, mongodb://<dbuser>:...)
-MongoClient.connect('mongodb://spam:spam@ds247327.mlab.com:47327/crudexpress', (err, db) => {
+MongoClient.connect('mongodb://spam:!!!@ds247327.mlab.com:47327/crudexpress', (err, db) => {
     var dbase = db.db("crudexpress");
     if (err) return console.log(err)
     app.listen(3500, () => {
         console.log('working on :3500')
     })
-}); 
-
-
-// The POST route
-app.post('/color/add', (req, res, next) => {
-    var color = {
-        color_name: req.body.color_name,
-        sample_thing: req.body.sample_thing
-    };
-    dbase.collection("color").save(color, (err, result) => {
-        if (err) {
-            console.log(err);
-        }
-
-        res.send('POST successful');
+    // GET all colors
+    app.get('/color', (req, res) => {
+        dbase.collection('color').find().toArray( (err, results) => {
+            res.send(results)
+        });
     });
-});
-
+    // POST new color ()
+    // GET color by id
+    // DELETE color by id
+    // PUT color 
+}); 
