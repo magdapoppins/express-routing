@@ -42,20 +42,65 @@ var http=require('http');
 // server.listen(3000);
 
 // Start server (replace link mlab, mongodb://<dbuser>:...)
-MongoClient.connect('mongodb://spam:!!!@ds247327.mlab.com:47327/crudexpress', (err, db) => {
+MongoClient.connect('mongodb://spam:???@ds247327.mlab.com:47327/crudexpress', (err, db) => {
     var dbase = db.db("crudexpress");
     if (err) return console.log(err)
     app.listen(3500, () => {
         console.log('working on :3500')
     })
     // GET all colors
-    app.get('/color', (req, res) => {
+    app.get('/colors', (req, res) => {
         dbase.collection('color').find().toArray( (err, results) => {
             res.send(results)
         });
     });
-    // POST new color ()
+    // POST a new color
+    app.post('/colors', (req, res, next) => {
+        var color = {
+            color_name: req.body.color_name,
+            color_sample: req.body.color_sample
+        };
+        dbase.collection("color").save(color, (err, result) => {
+            if(err) {
+                console.log(err);
+            }
+            res.send("New color added successfully!");
+        });
+    });
     // GET color by id
+    app.get('/colors/:id', (req, res, next) => {
+        if(err) {
+            throw err;
+        }
+        let id = ObjectID(req.params.id);
+        dbase.collection('color').find(id).toArray( (err, result) => {
+            if (err) {
+                throw err;
+            }
+            res.send(result);
+        });
+    });
+    // PUT by id
+    app.put('/colors/:id', (req, res, next) => {
+        let id = {
+            _id: ObjectID(req.params.id)
+        };
+        dbase.collection("color").update({_id: id}, {$set:{'color_name': req.body.color_name, 'color_sample': req.body.color_sample}}, (err, result) => {
+            if (err) {
+                throw err;
+            }
+            res.send('Color updated successfully!');
+        });
+    });
     // DELETE color by id
-    // PUT color 
+    app.delete('/colors/:id', (req, res, next) => {
+        let id = ObjectID(req.params.id);
+
+        dbase.collection("color").deleteOne(id, (err, result) => {
+            if (err) {
+                throw err;
+            }
+            res.send("Color deleted!");
+        });
+    });
 }); 
